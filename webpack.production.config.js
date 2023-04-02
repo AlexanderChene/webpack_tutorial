@@ -15,6 +15,12 @@ module.exports = {
         //clean: true,
     },
     mode: 'production',
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            minSize: 3000
+        }
+    },
     module: {
         rules: [
             {
@@ -69,9 +75,20 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
+            filename: 'hello-world.html',
+            chunks: ['hello-world'],
             title: 'Hello world 666',
-            template: 'src/index.hbs',
-            description: 'Some description 111'
+            template: 'src/page-template.hbs',
+            description: 'hello world',
+            minify: false,
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'kiwi.html',
+            chunks: ['kiwi'],
+            title: 'kiwi',
+            template: 'src/page-template.hbs',
+            description: 'kiwi',
+            minify: false
         }),
     ]
 };
