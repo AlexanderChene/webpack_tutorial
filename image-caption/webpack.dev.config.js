@@ -4,36 +4,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = {
-    entry: './src/kiwi.js',
+    entry: './src/image-caption.js',
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist'),
-        publicPath: 'http://localhost:9002/',
+        publicPath: 'http://localhost:9003/',
         //clean: true,
     },
     mode: 'development',
     devServer: {
-        port: 9002,
+        port: 9003,
         static: {
             directory: path.resolve(__dirname, './dist'),
 
         },
         devMiddleware: {
-            index: 'kiwi.html',
+            index: 'image-caption.html',
             writeToDisk: true
         }
     },
     module: {
         rules: [
-            {
-                test: /\.(png|jpg)$/,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 3 * 1024
-                    }
-                }
-            },
             {
                 test: /\.scss$/,
                 use: [
@@ -46,7 +37,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: [ '@babel/env' ],
+                        presets: [ '@babel/env' ]
                     }
                 }
             },
@@ -61,19 +52,16 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            filename: 'kiwi.html',
-            title: 'kiwi',
+            filename: 'image-caption.html',
+            title: 'Image Caption',
             template: 'src/page-template.hbs',
-            description: 'kiwi'
+            description: 'Image Caption'
         }),
         new ModuleFederationPlugin({
-            name: 'kiwiApp',
+            name: 'ImageCaptionApp',
             filename: 'remoteEntry.js',
             exposes: {
-                './kiwiPage': './src/components/kiwi-page/kiwi-page.js'
-            },
-            remotes: {
-                ImageCaptionApp: 'ImageCaptionApp@http://localhost:9003/remoteEntry.js'
+                './ImageCaption': './src/components/image-caption/image-caption.js',
             }
         })
     ]
