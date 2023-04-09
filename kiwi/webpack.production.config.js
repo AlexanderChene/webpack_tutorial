@@ -9,7 +9,7 @@ module.exports = {
     output: {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/static/',
+        publicPath: 'http://localhost:9002/',
         //clean: true,
     },
     mode: 'production',
@@ -68,9 +68,10 @@ module.exports = {
             minify: false
         }),
         new ModuleFederationPlugin({
-            name: 'kiwiApp',
-            remotes: {
-                HelloWorldApp: 'HelloWorldApp@http://localhost:9001/remoteEntry.js'
+            name: 'KiwiApp',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './KiwiPage': './src/components/kiwi-page/kiwi-page.js'
             }
         })
     ]

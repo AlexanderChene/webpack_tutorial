@@ -8,7 +8,7 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist'),
-        publicPath: '',
+        publicPath: 'http://localhost:9002/',
         //clean: true,
     },
     mode: 'development',
@@ -68,8 +68,9 @@ module.exports = {
         }),
         new ModuleFederationPlugin({
             name: 'kiwiApp',
-            remotes: {
-                HelloWorldApp: 'HelloWorldApp@http://localhost:9001/remoteEntry.js'
+            filename: 'remoteEntry.js',
+            exposes: {
+                './kiwiPage': './src/components/kiwi-page/kiwi-page.js'
             }
         })
     ]
